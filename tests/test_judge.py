@@ -62,6 +62,27 @@ def test_claude_judge_locates_reported_quotes() -> None:
     assert violation.quote == "Ship less"
 
 
+@pytest.mark.parametrize(
+    "quote",
+    ["Ship less,\nsleep more.", "Ship less,\nsleep more.\nRepeat tomorrow."],
+    ids=["one-newline", "two-newlines"],
+)
+def test_model_judge_locates_reported_quotes_across_lines(quote: str) -> None:
+    judge = get_model_judge(["SLO001"])
+    reported = judge.report_model.model_validate(
+        {"violations": [{"identifier": "SLO001", "quote": quote}]}
+    ).violations[0]
+
+    violation = judge.locate_violation_in_document(
+        reported, Document(prose=f"Introduction.\nThey say: {quote}", path=Path("x.md"))
+    )
+
+    assert violation.path == Path("x.md")
+    assert violation.line == 2
+    assert violation.offset == 11
+    assert violation.quote == quote
+
+
 def test_claude_judge_surfaces_a_quote_that_is_not_in_the_document(
     fake_model,
 ) -> None:

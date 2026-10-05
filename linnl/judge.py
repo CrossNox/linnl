@@ -86,28 +86,30 @@ class ModelJudge(ABC):
     def locate_violation_in_document[IdentifierT: str](
         self, reported: ReportedViolation[IdentifierT], document: Document
     ) -> Violation:
-        """Place a reported violation at the line its quote sits on."""
+        """Locate a reported violation at the start of its quote."""
         rule = self.rules[reported.identifier]
+        prose = document.prose
+        index = prose.find(reported.quote)
 
-        for line_number, line in enumerate(document.lines, start=1):
-            index = line.find(reported.quote)
+        if index == -1:
+            logger.error(
+                "%s: could not find the span reported for %s: %r",
+                document.path,
+                reported.identifier,
+                reported.quote,
+            )
+            raise RuntimeError("Could not find the quote in the document.")
 
-            if index != -1:
-                return Violation(
-                    rule=rule,
-                    path=document.path,
-                    line=line_number,
-                    offset=index + 1,
-                    quote=reported.quote,
-                )
+        line_number = prose.count("\n", 0, index) + 1
+        line_start = prose.rfind("\n", 0, index) + 1
 
-        logger.error(
-            "%s: could not find the span reported for %s: %r",
-            document.path,
-            reported.identifier,
-            reported.quote,
+        return Violation(
+            rule=rule,
+            path=document.path,
+            line=line_number,
+            offset=index - line_start + 1,
+            quote=reported.quote,
         )
-        raise RuntimeError("Could not find the quote in the document.")
 
 
 class ClaudeModelJudge(ModelJudge):
