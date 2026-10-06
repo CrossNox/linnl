@@ -265,6 +265,7 @@ The class's `name` must match the entry point name. `Acme001` registers itself w
 | WIK009 | on | Participle sentence tails. |
 | WIK010 | on | Promotional boilerplate. |
 | WIK011 | on | Chatbot leftovers. |
+| SYN001 | on | Clause headings and what-cleft sentences. Lead with the topic in headings and the subject in prose. Allow 'How to' procedure headings and ordinary or embedded questions in prose. |
 
 ## Develop
 

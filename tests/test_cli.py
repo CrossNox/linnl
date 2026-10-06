@@ -146,7 +146,7 @@ def test_config_prints_the_shipped_configuration() -> None:
 
     assert result.exit_code == 0
     assert (
-        'select = ["SCH", "SLO", "ZIN", "CHR", "LEN", "RGX", "CLH", "WIK"]'
+        'select = ["SCH", "SLO", "ZIN", "CHR", "LEN", "RGX", "CLH", "WIK", "SYN"]'
         in result.stdout
     )
 

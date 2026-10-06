@@ -1,5 +1,5 @@
 # Prefixes expand: SCH means every SCH rule.
-select = ["SCH", "SLO", "ZIN", "CHR", "LEN", "RGX", "CLH", "WIK"]
+select = ["SCH", "SLO", "ZIN", "CHR", "LEN", "RGX", "CLH", "WIK", "SYN"]
 extend-select = []
 ignore = ["CHR000", "LEN001"]
 
@@ -108,3 +108,7 @@ description = "Signs of AI writing adapted from Wikipedia"
 009 = "Participle sentence tails."
 010 = "Promotional boilerplate."
 011 = "Chatbot leftovers."
+
+[rules.SYN]
+description = "Heading and sentence structure"
+001 = """Clause headings and what-cleft sentences. Use noun phrases that name a heading's topic up front. Replace 'What', 'Why' or 'How' clauses such as 'How the gate decides' with "The gate's decision". Allow 'How to' followed by a verb. In prose, replace what-clefts such as 'What we need is a recorder' with 'We need a recorder'. Ordinary and embedded questions in prose are allowed."""

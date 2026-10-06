@@ -23,6 +23,7 @@ def test_from_config_uses_shipped_defaults(default_linter: Linter) -> None:
         "RGX",
         "CLH",
         "WIK",
+        "SYN",
     ]
     assert default_linter.config.ignore == ["CHR000", "LEN001"]
     assert default_linter.config.ignore_code_blocks is True
